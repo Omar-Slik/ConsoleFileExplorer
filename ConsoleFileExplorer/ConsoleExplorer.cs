@@ -9,11 +9,8 @@ namespace ConsoleFileExplorer
 {
     class ConsoleExplorer
     {
-        private FolderView _currentView;
-
         public void Run()
-        {
-            _currentView = new FolderView(".");
+        {                       
             while (true)
             {
                 string[] dirs = Directory.GetFileSystemEntries(".");
