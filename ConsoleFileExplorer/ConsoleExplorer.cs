@@ -28,17 +28,6 @@ namespace ConsoleFileExplorer
                         Console.WriteLine($"# {Path.GetFileName(dirName)}");
                     }
                 }
-                //string[] fileNames = Directory.GetFiles(".");
-                //foreach (string fileName in fileNames)
-                //{
-                //    Console.WriteLine($"- {Path.GetFileName(fileName)}");
-                //}
-                //List<string> currentContent = _currentView.GetFolderContent();
-                //foreach (string item in currentContent)
-                //{
-                //    Console.WriteLine(item);
-                //}
-
                 Console.ReadKey();
             }
         }
