@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ConsoleFileExplorer
+﻿namespace ConsoleFileExplorer
 {
     class Program
     {

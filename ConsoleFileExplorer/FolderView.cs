@@ -1,30 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace ConsoleFileExplorer
 {
     class FolderView
     {
-        private int status = 0;
-        public string Path { get; private set; }
-        private string[] dirs;
+        private string _path;
+        private int _status = 0;
+        private string[] _directories;
+        public string CurrentFileName { get; private set; }
         public FolderView(string path)
         {
-            Path = path;
-            CountDirectoryItems();
-            Directory.SetCurrentDirectory(Path);
+            _path = path;
+            Directory.SetCurrentDirectory(_path);
         }
         public void PrintList()
         {
-            //CountDirectoryItems();
-            foreach (string dirName in dirs)
+            CountDirectoryItems();
+            foreach (string dirName in _directories)
             {
-                if (dirs[status] == dirName)
+                if (_directories[_status] == dirName)
                 {
                     Console.BackgroundColor = ConsoleColor.Red;
-                    Path = dirName;
+                    CurrentFileName=dirName;
+                    //_path = dirName;
                 }
                 if (File.Exists(dirName))
                     Console.WriteLine($"- {System.IO.Path.GetFileName(dirName)}");
@@ -36,53 +35,54 @@ namespace ConsoleFileExplorer
         }
         public void Up()
         {
-            if (status > 0)
-                status -= 1;
+            if (_status > 0)
+                _status -= 1;
         }
         public void Down()
         {
-            if (status < dirs.Length - 1)
-                status += 1;
+            if (_status < _directories.Length - 1)
+                _status += 1;
         }
         public void DeleteFile()
         {
-            if (File.Exists(Path))
+            if (File.Exists(CurrentFileName))
             {
                 Console.Clear();
-                Console.WriteLine($"Are you sure you want to delete this file\"{Path}\"?\n press y/n");
+                Console.WriteLine($"Are you sure you want to delete this file?\n\"{CurrentFileName}\"\n press y/n");
                 ConsoleKeyInfo deleteCheck = Console.ReadKey(true);
                 if (deleteCheck.Key == ConsoleKey.Y)
                 {
-                    File.Delete(Path);
+                    File.Delete(CurrentFileName);
                     Console.WriteLine("File has been deleted successfully!");
-                    Console.ReadLine();
                 }
                 else if (deleteCheck.Key == ConsoleKey.N)
-                {
-                    Console.WriteLine("File will not be deleted!");
-                    Console.ReadLine();
-                }
+                    Console.WriteLine("File will not be deleted!");                    
+                else
+                    Console.WriteLine("Wrong answer!");
+                Console.WriteLine("------------------------------- \n" +
+                    "Press any key to return to the list");
+                Console.ReadKey();
             }
         }
         public void ChangeDirectory()
         {
-            if (Directory.Exists(Path))
+            if (Directory.Exists(CurrentFileName))
             {
-                Path = dirs[status];
-                status = 0;
+                _path = _directories[_status];
+                _status = 0;
                 CountDirectoryItems();
-                Directory.SetCurrentDirectory(Path);
+                Directory.SetCurrentDirectory(_path);
             }
         }
         private void CountDirectoryItems()
         {
-            dirs = Directory.GetFileSystemEntries(Path);
+            _directories = Directory.GetFileSystemEntries(_path);
         }
         public void FileContent()
         {
-            if (File.Exists(Path))
+            if (File.Exists(CurrentFileName))
             {
-                FileStream fs = File.OpenRead(Path);
+                FileStream fs = File.OpenRead(CurrentFileName);
                 using StreamReader sr = new StreamReader(fs);
                 Console.WriteLine(sr.ReadToEnd());
                 Console.WriteLine("------------------------------- \n" +

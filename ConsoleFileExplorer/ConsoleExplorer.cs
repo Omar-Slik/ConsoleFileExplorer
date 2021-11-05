@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ConsoleFileExplorer
 {
@@ -29,9 +26,6 @@ namespace ConsoleFileExplorer
                     case ViewState.CreateFile:
                         CreateFile();
                         break;
-                    //case ViewState.DeleteFile:
-                    //    DeleteFile();
-                    //    break;
                 }
             }
         }
@@ -70,8 +64,7 @@ namespace ConsoleFileExplorer
                     _viewState = ViewState.CreateFile;
                     break;
                 case ConsoleKey.D:
-                    DeleteFile();
-                    //_viewState = ViewState.DeleteFile;
+                    DeleteFile();                   
                     break;
             }
         }
